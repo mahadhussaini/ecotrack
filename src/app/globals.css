@@ -1,0 +1,411 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 142.1 76.2% 36.3%;
+    --radius: 0.75rem;
+    
+    /* EcoTrack Custom Colors */
+    --eco-50: 138 76% 97%;
+    --eco-100: 141 79% 85%;
+    --eco-200: 141 84% 73%;
+    --eco-300: 142 76% 36%;
+    --eco-400: 142 72% 29%;
+    --eco-500: 142 76% 36%;
+    --eco-600: 142 72% 29%;
+    --eco-700: 142 76% 36%;
+    --eco-800: 142 72% 29%;
+    --eco-900: 142 76% 36%;
+    --eco-950: 142 72% 29%;
+    
+    /* Success Colors */
+    --success-50: 138 76% 97%;
+    --success-100: 141 79% 85%;
+    --success-500: 142 76% 36%;
+    --success-600: 142 72% 29%;
+    
+    /* Warning Colors */
+    --warning-50: 48 96% 89%;
+    --warning-100: 48 96% 89%;
+    --warning-500: 38 92% 50%;
+    --warning-600: 32 95% 44%;
+    
+    /* Error Colors */
+    --error-50: 0 85% 97%;
+    --error-100: 0 93% 94%;
+    --error-500: 0 84% 60%;
+    --error-600: 0 72% 51%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 142.1 70.6% 45.3%;
+    --primary-foreground: 144.9 80.4% 10%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 142.1 76.2% 36.3%;
+    
+    /* Dark mode eco colors */
+    --eco-50: 142 72% 29%;
+    --eco-100: 142 76% 36%;
+    --eco-200: 142 72% 29%;
+    --eco-300: 142 76% 36%;
+    --eco-400: 142 72% 29%;
+    --eco-500: 142 76% 36%;
+    --eco-600: 142 72% 29%;
+    --eco-700: 142 76% 36%;
+    --eco-800: 142 72% 29%;
+    --eco-900: 142 76% 36%;
+    --eco-950: 142 72% 29%;
+
+    /* Dark mode success colors */
+    --success-50: 142 72% 29%;
+    --success-100: 142 76% 36%;
+    --success-500: 142 76% 36%;
+    --success-600: 142 72% 29%;
+
+    /* Dark mode warning colors */
+    --warning-50: 38 92% 50%;
+    --warning-100: 38 92% 50%;
+    --warning-500: 38 92% 50%;
+    --warning-600: 32 95% 44%;
+
+    /* Dark mode error colors */
+    --error-50: 0 84% 60%;
+    --error-100: 0 84% 60%;
+    --error-500: 0 84% 60%;
+    --error-600: 0 72% 51%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-muted/50;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+  
+  /* Selection styles */
+  ::selection {
+    @apply bg-eco-200 text-eco-900;
+  }
+  
+  .dark ::selection {
+    @apply bg-eco-800 text-eco-100;
+  }
+}
+
+@layer components {
+  /* Card hover effects */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .card-hover:hover {
+    @apply border-eco-200 dark:border-eco-700;
+  }
+  
+  /* Gradient backgrounds */
+  .gradient-bg {
+    background: linear-gradient(135deg, hsl(var(--eco-50)) 0%, hsl(var(--eco-100)) 100%);
+  }
+  
+  .dark .gradient-bg {
+    background: linear-gradient(135deg, hsl(var(--eco-900)) 0%, hsl(var(--eco-800)) 100%);
+  }
+  
+  /* Eco gradient */
+  .eco-gradient {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+  }
+  
+  /* Glass morphism effect */
+  .glass {
+    @apply backdrop-blur-md bg-white/80 dark:bg-black/80 border border-white/20 dark:border-white/10;
+  }
+  
+  /* Animated border */
+  .animated-border {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .animated-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(var(--eco-500)), transparent);
+    animation: border-slide 2s infinite;
+  }
+  
+  @keyframes border-slide {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+  
+  /* Pulse animation */
+  .pulse-eco {
+    animation: pulse-eco 2s infinite;
+  }
+  
+  @keyframes pulse-eco {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  /* Bounce animation */
+  .bounce-eco {
+    animation: bounce-eco 1s infinite;
+  }
+  
+  @keyframes bounce-eco {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+  
+  /* Shimmer effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  /* Button variants */
+  .btn-eco {
+    @apply bg-eco-500 hover:bg-eco-600 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+  }
+  
+  .btn-eco-outline {
+    @apply border-2 border-eco-500 text-eco-500 hover:bg-eco-500 hover:text-white font-medium px-4 py-2 rounded-lg transition-all duration-200;
+  }
+  
+  .btn-eco-ghost {
+    @apply text-eco-500 hover:bg-eco-50 dark:hover:bg-eco-900/20 font-medium px-4 py-2 rounded-lg transition-all duration-200;
+  }
+  
+  /* Input styles */
+  .input-eco {
+    @apply border border-input bg-background px-3 py-2 rounded-md text-sm transition-all duration-200 focus:border-eco-500 focus:ring-2 focus:ring-eco-500/20;
+  }
+  
+  /* Badge styles */
+  .badge-eco {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-eco-100 text-eco-800 dark:bg-eco-900 dark:text-eco-100;
+  }
+  
+  .badge-success {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-600 dark:bg-success-900 dark:text-success-100;
+  }
+  
+  .badge-warning {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-warning-100 text-warning-600 dark:bg-warning-900 dark:text-warning-100;
+  }
+  
+  .badge-error {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-100 text-error-600 dark:bg-error-900 dark:text-error-100;
+  }
+  
+  /* Progress bar */
+  .progress-eco {
+    @apply w-full bg-muted rounded-full h-2 overflow-hidden;
+  }
+  
+  .progress-eco-fill {
+    @apply h-full bg-eco-500 transition-all duration-300 ease-out;
+  }
+  
+  /* Stats card */
+  .stats-card {
+    @apply bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300;
+  }
+  
+  .stats-card:hover {
+    @apply border-eco-200 dark:border-eco-700;
+  }
+  
+  /* Navigation styles */
+  .nav-link {
+    @apply flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-all duration-200 hover:bg-muted;
+  }
+  
+  .nav-link.active {
+    @apply bg-eco-100 text-eco-700 dark:bg-eco-900 dark:text-eco-300 font-medium;
+  }
+  
+  /* Table styles */
+  .table-eco {
+    @apply w-full border-collapse;
+  }
+  
+  .table-eco th {
+    @apply text-left p-3 font-medium text-sm text-muted-foreground border-b border-border;
+  }
+  
+  .table-eco td {
+    @apply p-3 border-b border-border;
+  }
+  
+  .table-eco tr:hover {
+    @apply bg-muted/50;
+  }
+  
+  /* Modal backdrop */
+  .modal-backdrop {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50;
+  }
+  
+  /* Loading spinner */
+  .spinner {
+    @apply animate-spin rounded-full border-2 border-muted border-t-eco-500;
+  }
+  
+  /* Tooltip */
+  .tooltip {
+    @apply absolute z-50 px-2 py-1 text-xs text-white bg-gray-900 rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-200;
+  }
+  
+  .tooltip.show {
+    @apply opacity-100;
+  }
+  
+  /* Responsive text utilities */
+  .text-responsive {
+    @apply text-sm sm:text-base lg:text-lg;
+  }
+  
+  .heading-responsive {
+    @apply text-xl sm:text-2xl lg:text-3xl xl:text-4xl;
+  }
+  
+  /* Grid layouts */
+  .grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .grid-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  
+  /* Aspect ratios */
+  .aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+  
+  .aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+  
+  /* Custom shadows */
+  .shadow-eco {
+    box-shadow: 0 4px 14px 0 rgba(34, 197, 94, 0.15);
+  }
+  
+  .shadow-eco-lg {
+    box-shadow: 0 10px 25px 0 rgba(34, 197, 94, 0.2);
+  }
+  
+  /* Text gradients */
+  .text-gradient {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Border gradients */
+  .border-gradient {
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #22c55e, #16a34a) border-box;
+  }
+  
+  .dark .border-gradient {
+    background: linear-gradient(hsl(var(--background)), hsl(var(--background))) padding-box,
+                linear-gradient(135deg, #22c55e, #16a34a) border-box;
+  }
+}
