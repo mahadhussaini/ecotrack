@@ -22,6 +22,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Password must be at least 6 characters' }, { status: 400 })
     }
 
+    // Test database connection first
+    try {
+      await prisma.$connect()
+    } catch (dbError) {
+      console.error('Database connection error:', dbError)
+      return NextResponse.json({ 
+        error: 'Database connection failed. Please check your DATABASE_URL environment variable.',
+        details: process.env.NODE_ENV === 'development' ? dbError instanceof Error ? dbError.message : 'Unknown error' : undefined
+      }, { status: 500 })
+    }
+
     // Check if user already exists
     const existing = await prisma.user.findUnique({ where: { email } })
     if (existing) {
@@ -42,6 +53,8 @@ export async function POST(request: Request) {
       } 
     })
 
+    await prisma.$disconnect()
+
     return NextResponse.json({ 
       ok: true, 
       user: { 
@@ -56,21 +69,24 @@ export async function POST(request: Request) {
     
     // Check for specific database errors
     if (error instanceof Error) {
-      if (error.message.includes('DATABASE_URL')) {
+      if (error.message.includes('DATABASE_URL') || error.message.includes('database')) {
         return NextResponse.json({ 
-          error: 'Database configuration error. Please check your environment variables.' 
+          error: 'Database configuration error. Please check your DATABASE_URL environment variable.',
+          details: process.env.NODE_ENV === 'development' ? error.message : undefined
         }, { status: 500 })
       }
       
-      if (error.message.includes('connect')) {
+      if (error.message.includes('connect') || error.message.includes('connection')) {
         return NextResponse.json({ 
-          error: 'Database connection failed. Please check your database URL and network connection.' 
+          error: 'Database connection failed. Please check your database URL and network connection.',
+          details: process.env.NODE_ENV === 'development' ? error.message : undefined
         }, { status: 500 })
       }
       
-      if (error.message.includes('schema')) {
+      if (error.message.includes('schema') || error.message.includes('table')) {
         return NextResponse.json({ 
-          error: 'Database schema error. Please run database migrations.' 
+          error: 'Database schema error. Please run database migrations.',
+          details: process.env.NODE_ENV === 'development' ? error.message : undefined
         }, { status: 500 })
       }
     }
