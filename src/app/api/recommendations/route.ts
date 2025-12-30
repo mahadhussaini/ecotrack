@@ -2,40 +2,69 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { createOpenAIService } from '@/api'
 
 export async function GET() {
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) {
-    return NextResponse.json({ recommendations: defaultRecs() })
+    return NextResponse.json({ recommendations: getDefaultRecommendations() })
   }
-  // Simple heuristics based on last activities
-  const recent = await prisma.activity.findMany({
-    where: { userId: session.user.id },
-    orderBy: { date: 'desc' },
-    take: 10,
-  })
-  const recs = new Set<string>()
-  if (!recent.some((a: any) => a.category === 'TRANSPORT' && (a.type === 'walk' || a.type === 'bike'))) {
-    recs.add('Try walking or cycling for short trips under 2km')
+
+  try {
+    // Get user's recent activities for AI-powered recommendations
+    const recentActivities = await prisma.activity.findMany({
+      where: { userId: session.user.id },
+      orderBy: { date: 'desc' },
+      take: 20, // Increased for better AI context
+    })
+
+    // Get user's stats for personalization
+    const userStats = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        points: true,
+        _count: {
+          select: {
+            activities: true,
+          },
+        },
+      },
+    })
+
+    // Generate AI-powered recommendations
+    const recommendations = await generateAIRecommendations(recentActivities, userStats)
+
+    return NextResponse.json({ recommendations })
+  } catch (error) {
+    console.error('Error generating AI recommendations:', error)
+    // Fallback to default recommendations if AI fails
+    return NextResponse.json({ recommendations: getDefaultRecommendations() })
   }
-  if (!recent.some((a: any) => a.category === 'FOOD' && a.type === 'vegan_meal')) {
-    recs.add('Swap one meat meal for a plant-based meal this week')
-  }
-  if (!recent.some((a: any) => a.category === 'TRANSPORT' && (a.type === 'bus' || a.type === 'train' || a.type === 'public_transport'))) {
-    recs.add('Use public transport for your next commute')
-  }
-  if (!recent.some((a: any) => a.category === 'SHOPPING' && a.type === 'recycle')) {
-    recs.add('Recycle paper, plastic, and glass this week')
-  }
-  const list = Array.from(recs)
-  return NextResponse.json({ recommendations: list.length ? list : defaultRecs() })
 }
 
-function defaultRecs() {
+async function generateAIRecommendations(activities: any[], userStats: any) {
+  try {
+    const openaiService = createOpenAIService()
+    const response = await openaiService.generateRecommendations(activities, userStats)
+
+    if (response.success && response.data) {
+      return response.data
+    } else {
+      console.error('OpenAI service error:', response.error)
+      return getDefaultRecommendations()
+    }
+  } catch (error) {
+    console.error('AI recommendation generation failed:', error)
+    return getDefaultRecommendations()
+  }
+}
+
+function getDefaultRecommendations() {
   return [
-    'Walk or cycle for short trips under 2km',
-    'Use public transport twice this week',
-    'Replace two meat meals with plant-based options',
-    'Turn off standby power for appliances overnight',
+    'Walk or cycle for short trips under 2km to reduce transportation emissions',
+    'Try public transport for your next commute instead of driving',
+    'Swap one meat meal for a plant-based alternative this week',
+    'Remember to recycle paper, plastic, and glass in your household waste',
+    'Turn off electronics and appliances when not in use to save energy',
   ]
 }

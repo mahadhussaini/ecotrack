@@ -11,6 +11,8 @@ import DashboardChart from '@/components/dashboard/DashboardChart'
 import Recommendations from '@/components/dashboard/Recommendations'
 import CategoryChart from '@/components/dashboard/CategoryChart'
 import QuickActions from '@/components/dashboard/QuickActions'
+import AiInsights from '@/components/dashboard/AiInsights'
+import AiAssistant from '@/components/ui/ai-assistant'
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
@@ -130,7 +132,7 @@ export default async function DashboardPage() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card variant="glass" hover className="animate-slide-in-from-right">
           <CardHeader>
             <CardTitle className="text-base md:text-lg flex items-center gap-2">
@@ -142,6 +144,31 @@ export default async function DashboardPage() {
             <div className="h-64 md:h-80">
               <CategoryChart />
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* AI Insights Section */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6">
+        <div className="xl:col-span-2">
+          <AiInsights />
+        </div>
+
+        <Card variant="animated" hover className="animate-float" style={{ animationDelay: '0.2s' }}>
+          <CardHeader>
+            <CardTitle className="text-base md:text-lg flex items-center gap-2">
+              <Leaf className="h-5 w-5 text-eco-600" />
+              AI Assistant
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Get personalized sustainability advice and answers to your eco-questions.
+            </p>
+            <div className="text-xs text-muted-foreground">
+              💡 Try asking: &ldquo;How can I reduce my carbon footprint?&rdquo; or &ldquo;What activities give the most points?&rdquo;
+            </div>
+            <AiAssistant context="general" />
           </CardContent>
         </Card>
       </div>
@@ -185,6 +212,10 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Assistant - Global Floating Component */}
+      <AiAssistant context="general" />
+
     </div>
   )
 }

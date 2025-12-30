@@ -8,6 +8,7 @@ This guide will help you deploy EcoTrack to Vercel with all the necessary config
 2. **GitHub Repository**: Push your code to GitHub
 3. **Database**: Set up a PostgreSQL database (recommended: [Neon](https://neon.tech) or [Supabase](https://supabase.com))
 4. **OAuth Apps**: Set up GitHub/Google OAuth applications (optional)
+5. **OpenAI API Key**: Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
 
 ## 🗄️ Database Setup
 
@@ -35,6 +36,9 @@ DATABASE_URL="postgresql://user:password@host/database"
 # NextAuth
 NEXTAUTH_URL="https://your-app.vercel.app"
 NEXTAUTH_SECRET="your-secret-key-here"
+
+# OpenAI API
+OPENAI_API_KEY="sk-your-openai-api-key-here"
 
 # OAuth Providers (Optional)
 GITHUB_ID="your-github-client-id"
@@ -81,6 +85,7 @@ git push origin main
 | `DATABASE_URL` | Your database connection string | Production, Preview, Development |
 | `NEXTAUTH_URL` | `https://your-app.vercel.app` | Production, Preview, Development |
 | `NEXTAUTH_SECRET` | Your generated secret | Production, Preview, Development |
+| `OPENAI_API_KEY` | Your OpenAI API key | Production, Preview, Development |
 | `GITHUB_ID` | Your GitHub OAuth client ID | Production, Preview, Development |
 | `GITHUB_SECRET` | Your GitHub OAuth client secret | Production, Preview, Development |
 | `GOOGLE_CLIENT_ID` | Your Google OAuth client ID | Production, Preview, Development |

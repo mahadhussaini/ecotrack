@@ -20,6 +20,7 @@ A comprehensive web application built with Next.js that helps users track their 
 - **State Management**: React Query + Zustand
 - **Database**: PostgreSQL with Prisma ORM
 - **Authentication**: NextAuth.js with multiple providers
+- **AI Integration**: OpenAI API for smart recommendations
 - **Charts**: Recharts and Chart.js for data visualization
 - **UI Components**: Radix UI primitives with custom styling
 - **Deployment**: Docker-ready with CI/CD support
@@ -43,7 +44,10 @@ A comprehensive web application built with Next.js that helps users track their 
    DATABASE_URL="postgresql://username:password@localhost:5432/ecotrack"
    NEXTAUTH_URL="http://localhost:3000"
    NEXTAUTH_SECRET="your-secret-key-here"
+   OPENAI_API_KEY="sk-your-openai-api-key-here"
    ```
+
+   **Note**: Get your OpenAI API key from [OpenAI Platform](https://platform.openai.com/api-keys)
 
 4. **Set up the database**
    ```bash

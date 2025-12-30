@@ -22,7 +22,8 @@
    DATABASE_URL="postgresql://username:password@localhost:5432/ecotrack"
    NEXTAUTH_URL="http://localhost:3000"
    NEXTAUTH_SECRET="your-secret-key-here"
-   
+   OPENAI_API_KEY="sk-your-openai-api-key-here"
+
    # Optional OAuth providers
    GITHUB_ID=""
    GITHUB_SECRET=""
@@ -127,6 +128,7 @@ docker run -p 3000:3000 \
 | `DATABASE_URL` | ✅ | PostgreSQL connection string |
 | `NEXTAUTH_URL` | ✅ | Application URL |
 | `NEXTAUTH_SECRET` | ✅ | JWT signing secret |
+| `OPENAI_API_KEY` | ✅ | OpenAI API key for AI features |
 | `GITHUB_ID` | ❌ | GitHub OAuth ID |
 | `GITHUB_SECRET` | ❌ | GitHub OAuth secret |
 | `GOOGLE_CLIENT_ID` | ❌ | Google OAuth ID |
